@@ -1,25 +1,7 @@
+############   DATASET (Neural Analogical Reasoning)###############
+Formulating a cognitive visual problem as meta learning on the Neural Analogical Reasoning Dataset. Available at: https://www.kaggle.com/datasets/gmshroff/few-shot-nar
 
-##################### DIRECTORY STRUCTURE ##########################################
-In "sweta_NAR_paper":
-
--dataset.py
--models.py
--logger_files_cnp
--logger_files_maml
--logger_files_man
--problems_10k.json
--nar_classification_dataset_images_10k
-
--CNP
-  -cnp.py
-
--MAML
-  -maml.py
-
--MAN
-  -man.py
-  -extras.py
-
+The dataset has 10k image sets. Each image set has 6 input images and four corresponding options for the output image out of which only one is correct. The input and output image of a single image set is related by the same transformation. The task is to predict the output from among those four options so that the test input - output pair are related by the same transformation. This is a few-shot meta learning problem. 
 
 
 
@@ -29,13 +11,13 @@ HOW TO RUN IT: python CNP/cnp.py
 It has two neural networks, 1st: embedding neural network(NN), 2nd: classification neural network(NN)
 >Each task has 24 training samples. (24, 3*64*64)
 >After embedding NN (24,m)
->Class average embedding (2,m) => flatten this (2m,)
->X_test= (4,3*64*64) (if you plan to pass it through embedding NN then (4,m) but it gives worse performance, the loss seems to get stuck)
+>Class average embedding (since this is a binary class)(2,m) => flatten this (2m,)
+>X_test= (4,3*64*64) (if you plan to pass it through embedding NN then dimension is (4,m) but it gives worse performance, the loss seems to get stuck)
 >concatenate X_test and class average embedding (4,2m+3*64*64)
-> pass this through classification NN
+> pass this through classification NN to get predictions
 
 
-Th frist one is used to get class average embedding and second one is used to predict label for the test image. self.adapt outputs r (no of classes,)
+Th frist one is used to get class average embedding and second one is used to predict label for the test image. self.adapt outputs r of dimesion =(no of classes,).
 
 - Things you can tweak : Initially by using my own CNN giving very weird results(results were either getting stuck at 0.25/0.75, maybe stuck at local minima or they would randomly oscillate between 0.25 an d0,75 ). I experiemnted with ADAM and SGD optimizer and ReduceLROnPlateau(optimizer, patience=5, threshold=1e-3, verbose=True) scheduler. It did not give much improvement. 
 
@@ -45,16 +27,12 @@ Next, I tried using pre-trained VGG11  and 16. Since we wanted a less complex mo
 
 In CNP forward, while predicting label for X_test, we can either concatenate it raw or pass it through the previous CNN/MLP to get features and then concatenate. The latter helps in reducing dimension but it did not give good results. why?
 
-task_count=600 : increasing the task nos, hence no of training examples(each task gives 24 inputs) will reduce overfitting 
+task_count=600 : increasing the number of tasks increases the no of training examples(each task gives 24 inputs) will reduce overfitting 
 n_epochs=55
-
-
-
-
 
 ############ MAN ############ MAN ############ MAN ####################
 HOW TO RUN IT: python MAN/man.py
 
-get embedding train data = (batch_size,m)= (24,m) m= no of features after passing through the embedding NN
-get embedding test data = (4,m)
-for each of the 
+############ MAML ############ MAML ############ MAML ####################
+HOW TO RUN IT: python MAML/maml.py
+
