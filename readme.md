@@ -1,4 +1,5 @@
 ############   DATASET (Neural Analogical Reasoning)###############
+
 Formulating a cognitive visual problem as meta learning on the Neural Analogical Reasoning Dataset. Available at: https://www.kaggle.com/datasets/gmshroff/few-shot-nar
 
 The dataset has 10k image sets. Each image set has 6 input images and four corresponding options for the output image out of which only one is correct. The input and output image of a single image set is related by the same transformation. The task is to predict the output from among those four options so that the test input - output pair are related by the same transformation. This is a few-shot meta learning problem. 
@@ -6,6 +7,7 @@ The dataset has 10k image sets. Each image set has 6 input images and four corre
 
 
 ##################### CNP ################### CNP ###################
+
 HOW TO RUN IT: python CNP/cnp.py
 
 It has two neural networks, 1st: embedding neural network(NN), 2nd: classification neural network(NN)
@@ -31,8 +33,10 @@ task_count=600 : increasing the number of tasks increases the no of training exa
 n_epochs=55
 
 ############ MAN ############ MAN ############ MAN ####################
+
 HOW TO RUN IT: python MAN/man.py
 
 ############ MAML ############ MAML ############ MAML ####################
+
 HOW TO RUN IT: python MAML/maml.py
 
